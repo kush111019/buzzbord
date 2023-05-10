@@ -51,6 +51,7 @@ return res.status(201).send({status:true,message:"new order is created successfu
 
 
 const updateOrder =async function(req,res){
+try{
 
 let data = req.body;
 
@@ -80,10 +81,16 @@ const updateRecord = await orderModel.findOneAndUpdate(
 );
 
 return res.status(200).send({status:true,message:"record is updated successfully",data:updateRecord});
+
+}catch(error){
+    return res.status(500).send({status:false,message:error.message});
+}
+
 }
 
 
 const listAllOrders = async function(req,res){
+try{
 
 let data = req.body;
 
@@ -118,11 +125,17 @@ let records = await orderModel.find({order_date:date});
 
 return res.status(200).send({status:true,message:records});
 
+}catch(error){
+    return res.status(500).send({status:false,message:error.message});
+}
+
 }
 
 
 const listOrderByOrderId = async function(req,res){
 
+try{
+    
 let data = req.body;
 
 if(!validator.isValidDetails(data)){
@@ -143,10 +156,16 @@ return res.status(400).send({status:false,message:"order_id does not exist"});
 else
 return res.status(200).send({status:false,message:orderIdExists});
 
+}catch(error){
+    return res.status(500).send({status:false,message:error.message});
+}
+
 }
 
 
 const deleteOrder = async function(req,res){
+
+try{
 
 let data = req.body;
 
@@ -170,6 +189,9 @@ let deleteOrder = await orderModel.deleteOne({order_id:orderId});
 
 return res.status(200).send({status:false,message:"order is deleted successfully",data:deleteOrder});
 
+}catch(error){
+    return res.status(500).send({status:false,message:error.message});
+}
 
 }
 
